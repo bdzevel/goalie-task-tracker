@@ -3,8 +3,11 @@ Goalie
 A to-do list application written in Javascript, for practice.
 
 Node.js is the backend
+
 Mongo DB is the backend database
+
 Heroku will be used for cloud hosting
+
 MongoLab is used for cloud DB hosting
 
 Authored by Boris Dzevel
