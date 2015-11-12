@@ -28,12 +28,12 @@ var args =
 };
 app.use(session(args));
 
-var authenticationHandlers = require("./authentication/handlers");
-app.use("/api/authentication", authenticationHandlers);
-var usersHandlers = require("./users/handlers");
-app.use("/api/users", usersHandlers);
-var goalsHandlers = require("./goals/handlers");
-app.use("/api/goals", goalsHandlers);
+var authRoutes = require("./authentication/routes");
+app.use("/api/authentication", authRoutes);
+var usersRoutes = require("./users/routes");
+app.use("/api/users", usersRoutes);
+var goalRoutes = require("./goals/routes");
+app.use("/api/goals", goalRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next)

@@ -1,8 +1,8 @@
-// ROOT/api/authentication
+// ROOT/api/authentication/handlers
 
 var bcrypt = require("bcrypt");
 
-var User = require("../../models/user");
+var User = require("../../../models/user");
 
 function POST(request, response)
 {
@@ -51,9 +51,4 @@ function POST(request, response)
 	}
 };
 
-var express = require("express");
-var router = express.Router();
-
-router.post("/", POST);
-
-module.exports = router;
+module.exports = POST;

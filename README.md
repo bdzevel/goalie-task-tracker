@@ -1,6 +1,8 @@
 Goalie
 
-A to-do list application written in Javascript, for practice.
+A to-do list application written in JavaScript, for practice.
+
+AngularJS will be the frontend
 
 Node.js is the backend
 

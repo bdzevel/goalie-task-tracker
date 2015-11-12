@@ -1,15 +1,8 @@
-// ROOT/api/users
+// ROOT/api/users/handlers
 
 var bcrypt = require("bcrypt");
 
-var ValidateUserSession = require("../authentication/validate-user-session");
-var User = require("../../models/user");
-
-function GET(request, response)
-{
-	// Get user info
-	response.status(200).end();
-};
+var User = require("../../../models/user");
 
 function POST(request, response)
 {
@@ -77,25 +70,4 @@ function POST(request, response)
 	}
 };
 
-function PUT(request, response)
-{
-	// Update user info
-	response.status(200).end();
-};
-
-function DELETE(request, response)
-{
-	// Delete user and user's goals
-	response.status(200).end();
-};
-
-var express = require("express");
-var router = express.Router();
-
-router.post("/", POST);
-
-router.get("/:id", ValidateUserSession, GET);
-router.put("/:id", ValidateUserSession, PUT);
-router.delete("/:id", ValidateUserSession, DELETE);
-
-module.exports = router;
+module.exports = POST;

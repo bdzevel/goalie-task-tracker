@@ -1,11 +1,14 @@
 {
   "name": "goalie",
-  "version": "0.0.0",
+  "description": "Web application for task tracking",
+  "version": "0.0.1",
+  "author": "bdzevel",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "angular2": "^2.0.0-alpha.45",
     "bcrypt": "^0.8.5",
     "bluebird": "^3.0.5",
     "body-parser": "~1.13.2",
