@@ -2,7 +2,8 @@
 
 var bcrypt = require("bcrypt");
 
-var User = require("../../../models/user");
+var User = require("../../users/user");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
@@ -12,9 +13,9 @@ function POST(request, response)
 	
 	if (!username)
 	{
-		var err = "Invalid username";
-		console.error(err);
-		response.status(400).send({ error: err });
+		var errmsg = "Invalid username";
+		TS.TraceWarning(__filename, errmsg);
+		response.status(400).send({ error: errmsg });
 		return;
 	}
 
@@ -24,24 +25,24 @@ function POST(request, response)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}
 
 		if (!user)
 		{
-			var err = "Invalid username";
-			console.error(err);
-			response.status(400).send({ error: err });
+			var errmsg = "Invalid username";
+			TS.TraceWarning(__filename, errmsg);
+			response.status(400).send({ error: errmsg });
 			return;
 		}
 
 		if (!bcrypt.compareSync(password, user.PasswordHash))
 		{
-			var err = "Invalid password";
-			console.error(err);
-			response.status(400).send({ error: err });
+			var errmsg = "Invalid password";
+			TS.TraceWarning(__filename, errmsg);
+			response.status(400).send({ error: errmsg });
 			return;
 		}
 

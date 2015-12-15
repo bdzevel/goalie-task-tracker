@@ -1,6 +1,7 @@
 // ROOT/api/goals/handlers
 
-var Goal = require("../../../models/goal");
+var Goal = require("../goal");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function GET(request, response)
 {
@@ -13,7 +14,7 @@ function GET(request, response)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}

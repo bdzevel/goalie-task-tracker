@@ -1,11 +1,13 @@
 // ROOT/api/authentication
 
-var User = require("../../models/user");
+var User = require("../users/user");
+var TS = require("../diagnostics/trace-sources").Get("Request-Handlers");
 
 function ValidateUserSession(request, response, next)
 {
 	if (!request.session || !request.session.userid)
 	{
+		TS.TraceWarning(__filename, "Invalid user session");
 		response.status(401).end();
 		return;
 	}
@@ -16,13 +18,14 @@ function ValidateUserSession(request, response, next)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}
 
 		if (!user)
 		{
+			TS.TraceWarning(__filename, "Invalid user session");
 			response.status(401).end();
 			return;
 		}

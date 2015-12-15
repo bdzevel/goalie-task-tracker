@@ -1,6 +1,7 @@
 // ROOT/api/goals/handlers
 
-var Goal = require("../../../models/goal");
+var Goal = require("../goal");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function PUT(request, response)
 {
@@ -11,7 +12,9 @@ function PUT(request, response)
 
 	if (!updatedGoal)
 	{
-		response.status(400).send({ error: "Invalid goal" });
+		var errmsg = "Invalid goal";
+		TS.TraceWarning(__filename, errmsg);
+		response.status(400).send({ error: errmsg });
 		return;
 	}
 
@@ -21,16 +24,16 @@ function PUT(request, response)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}
 
 		if (!goal || goal.UserID != userID)
 		{
-			var err = "Goal not found";
-			console.error(err);
-			response.status(500).send({ error: err });
+			var errmsg = "Goal not found";
+			TS.TraceWarning(__filename, errmsg);
+			response.status(500).send({ error: errmsg });
 			return;
 		}
 
@@ -43,7 +46,7 @@ function PUT(request, response)
 		{
 			if (err)
 			{
-				console.error(err);
+				TS.TraceWarning(__filename, err);
 				response.status(500).send({ error: err });
 				return;
 			}

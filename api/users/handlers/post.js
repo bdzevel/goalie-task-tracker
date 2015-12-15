@@ -2,7 +2,8 @@
 
 var bcrypt = require("bcrypt");
 
-var User = require("../../../models/user");
+var User = require("../user");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
@@ -13,9 +14,9 @@ function POST(request, response)
 	
 	if (!username || username == "")
 	{
-		var err = "Invalid username";
-		console.error(err);
-		response.status(400).send({ error: err });
+		var errmsg = "Invalid username";
+		TS.TraceWarning(__filename, errmsg);
+		response.status(400).send({ error: errmsg });
 		return;
 	}
 	User.findOne({ "UserName": username }, OnUserFound);
@@ -31,8 +32,8 @@ function POST(request, response)
 
 		if (user)
 		{
-			var err = "User '" + user.UserName + "' already exists!";
-			console.error(err);
+			var errmsg = "User '" + user.UserName + "' already exists!";
+			TS.TraceWarning(__filename, errmsg);
 			response.status(409).send({ error: err });
 			return;
 		}
@@ -41,14 +42,13 @@ function POST(request, response)
 		var newUser = new User();
 		newUser.UserName = username;
 		newUser.EMail = emailAddress;
-		console.log("3");
 		bcrypt.hash(password, 10, OnHashGenerated);
 		
 		function OnHashGenerated(err, hash)
 		{
 			if (err)
 			{
-				console.error(err);
+				TS.TraceWarning(__filename, err);
 				response.status(500).send({ error: err });
 				return;
 			}
@@ -60,7 +60,7 @@ function POST(request, response)
 		{
 			if (err)
 			{
-				console.error(err);
+				TS.TraceWarning(__filename, err);
 				response.status(500).send({ error: err });
 				return;
 			}

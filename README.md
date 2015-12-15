@@ -13,7 +13,7 @@ Authored by Boris Dzevel
 
 NOTES:
 
-Needs key.pem and cert.pem files at root (not checked in), for HTTPS
+Needs server.key.pem and server.crt.pem files at root (not checked in), for HTTPS
 
 Needs .env file at root (not checked in), with following (JSON) structure:
 

@@ -1,6 +1,7 @@
 // ROOT/api/goals/handlers
 
-var Goal = require("../../../models/goal");
+var Goal = require("../goal");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
@@ -10,7 +11,9 @@ function POST(request, response)
 
 	if (!goal)
 	{
-		response.status(400).send({ error: "Invalid goal" });
+		var errmsg = "Invalid goal";
+		TS.TraceWarning(__filename, errmsg);
+		response.status(400).send({ error: errmsg });
 		return;
 	}
 
@@ -25,7 +28,7 @@ function POST(request, response)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}

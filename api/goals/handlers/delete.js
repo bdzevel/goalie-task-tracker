@@ -1,6 +1,7 @@
 // ROOT/api/goals/handlers
 
-var Goal = require("../../../models/goal");
+var Goal = require("../goal");
+var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function DELETE(request, response)
 {
@@ -14,16 +15,16 @@ function DELETE(request, response)
 	{
 		if (err)
 		{
-			console.error(err);
+			TS.TraceWarning(__filename, err);
 			response.status(500).send({ error: err });
 			return;
 		}
 
 		if (!goal || goal.UserID != userID)
 		{
-			var err = "Goal not found";
-			console.error(err);
-			response.status(500).send({ error: err });
+			var errmsg = "Goal not found";
+			TS.TraceWarning(__filename, errmsg);
+			response.status(500).send({ error: errmsg });
 			return;
 		}
 
@@ -33,7 +34,7 @@ function DELETE(request, response)
 		{
 			if (err)
 			{
-				console.error(err);
+				TS.TraceWarning(__filename, err);
 				response.status(500).send({ error: err });
 				return;
 			}
