@@ -13,7 +13,8 @@ Authored by Boris Dzevel
 
 NOTES:
 
-Needs server.key.pem and server.crt.pem files at root (not checked in), for HTTPS
+Needs root-ca.crt.pem, server.key.pem, and server.crt.pem files at root (not checked in), for HTTPS.
+You can generate these using the PowerShell script in the "util" folder and just move them to the root.
 
 Needs .env file at root (not checked in), with following (JSON) structure:
 
