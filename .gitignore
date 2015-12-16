@@ -28,4 +28,5 @@ node_modules
 
 *.env
 *.pem
+*.srl
 .vscode
