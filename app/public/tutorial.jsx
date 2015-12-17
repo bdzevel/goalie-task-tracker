@@ -7,13 +7,13 @@ var internalData =
 	{id: ++curid, author: "rando", text: "it's just so meaningless"}
 ];
 
-function AJAX()
+function AJAX(user, pass)
 {
 	$.ajax({
 		async: true,
 		method: "POST",
 		url: "https://localhost:444/api/authentication",
-		contents: { username: "Hello", password: "World" },
+		contents: { username: user, password: pass },
 		contentType: "application/json",
 		success: function(result) { console.log(result); },
 		error: function(result) { console.log(result); }
@@ -31,12 +31,12 @@ var CommentBox = React.createClass({
 	},
 	componentDidMount: function() {
 		this.setState({ data: internalData });
-		setInterval(this.addComment, 5000);
+		//setInterval(this.addComment, 5000);
 	},
 	handleNewComment: function(e) {
 		this.state.data.push({id: ++curid, author: e.author, text: e.text});
 		this.setState(this.state);
-		AJAX();
+		AJAX(e.author, e.text);
 	},
 	render: function() {
 		return (

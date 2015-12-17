@@ -3,6 +3,7 @@
   "description": "Web application for task tracking",
   "version": "0.0.1",
   "author": "bdzevel",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
