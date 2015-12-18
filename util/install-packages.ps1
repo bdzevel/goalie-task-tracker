@@ -18,10 +18,6 @@ npm install;
 #	and move them to the appropriate location
 cd .\app;
 npm install;
-rm -rf .\public\lib
-rm -rf .\public\node_modules
-Copy-Item .\node_modules .\public -R
-Rename-Item .\public\node_modules lib
 cd ..;
 
 Exit 0;

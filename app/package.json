@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "start": "echo 'Run the start script from the root'",
-    "build": "browserify ./public/goalie-app.jsx -o ./public/bundle.jsx"
+    "build": "browserify ./public/goalie-app.jsx | uglifyjs -cm -o ./public/bundle.min.jsx"
   },
   "dependencies": {
     "browserify": "^12.0.1",
