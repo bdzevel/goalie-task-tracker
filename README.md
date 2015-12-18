@@ -13,8 +13,9 @@ Authored by Boris Dzevel
 
 NOTES:
 
-Needs root-ca.crt.pem, server.key.pem, and server.crt.pem files at root (not checked in), for HTTPS.
-You can generate these using the PowerShell script in the "util" folder and just move them to the root.
+To install all of the dependencies for both the front end and back end, you should run the "install-packages.ps1" script. This will install all dependencies and move - in the case of the front end - will also copy them to the appropriate location.
+
+Needs root-ca.crt.pem, server.key.pem, and server.crt.pem files at root (not checked in), for HTTPS. You can generate these using the PowerShell script in the "util" folder and just move them to the root.
 
 Needs .env file at root (not checked in), with following (JSON) structure:
 
