@@ -1,40 +1,76 @@
 var jquery = require("jquery");
 
-var LoginFormSpec = { };
-LoginFormSpec.NewUser = function()
+var RegisterFormSpec = { };
+RegisterFormSpec.NewUser = function()
 {
 	$.ajax({
 		async: true,
 		method: "POST",
 		url: "https://localhost:444/api/users",
-		contents: { username: user, email: email, password: pass },
+		contents: { username: this.state.username, email: this.state.email, password: this.state.password },
 		contentType: "application/json",
-		success: function(result) { console.log(result); },
-		error: function(result) { console.log(result); }
+		success: this.SetSuccess,
+		error: this.SetError
 	});
-	this.state.data.push({ id: ++curid, author: "rando" + curid, text: "forgettable comment " + curid});
-	this.setState(this.state);
 };
-	
-LoginFormSpec.getInitialState = function() {
-		return {data: []};
-	},
-LoginFormSpec.componentDidMount = function() {
-		this.setState({ data: internalData });
-	},
-LoginFormSpec.render = function() {
-		return (
-		<div className="loginForm">
-		<h1>Log In</h1>
-		<form className="commentForm" onSubmit={this.handleSubmit}>
-		<p><input type="text" placeholder="Name" value={this.state.author} onChange={this.handleAuthorChange} /></p>
-		<p><input type="text" placeholder="say something..." value={this.state.text} onChange={this.handleTextChange} /></p>
-		<p><input type="submit" value="Post" /></p>
+LoginFormSpec.SetSuccess = function(result)
+{
+	this.setState({ success: "Success!" });
+	console.log(result);
+	this.props.onSuccess(result.session);
+};
+LoginFormSpec.SetError = function(result)
+{
+	this.setState({ error: result.responseJSON.error });
+};
+LoginFormSpec.HandleLogIn = function(e)
+{
+	e.preventDefault();
+	this.ValidateCredentials();
+};
+LoginFormSpec.HandleUserNameChange = function(e)
+{
+	this.setState({ username: e.target.value });
+};
+LoginFormSpec.HandleEmailChange = function(e)
+{
+	this.setState({ email: e.target.value });
+};
+LoginFormSpec.HandlePasswordChange = function(e)
+{
+	this.setState({ password: e.target.value });
+};
+RegisterFormSpec.getInitialState = function() {
+	return { };
+};
+RegisterFormSpec.componentDidMount = function() {
+	this.setState({ });
+};
+RegisterFormSpec.render = function() {
+	var message = "";
+	if (this.state.success)
+	{
+		message = (
+			<p><font color="green">Success!</font></p>
+		);
+	}
+	if (this.state.error)
+	{
+		message = (
+			<p class="error">{this.state.error}</p>
+		);
+	}
+	return (
+		<form className="registerForm" onSubmit={this.HandleRegister}>
+			<p><input type="text" placeholder="Username" value={this.state.username} onChange={this.HandleUserNameChange} /></p>
+			<p><input type="text" placeholder="E-Mail" value={this.state.email} onChange={this.HandleEmailChange} /></p>
+			<p><input type="password" placeholder="Password" value={this.state.password} onChange={this.HandlePasswordChange} /></p>
+			<p><input type="submit" value="Register" /></p>
+			{message}
 		</form>
-		</div>
 	);
 };
 
 var React = require("react");
-var LoginForm = React.createClass(LoginFormSpec);
-module.exports = LoginForm;
+var RegisterForm = React.createClass(RegisterFormSpec);
+module.exports = RegisterForm;

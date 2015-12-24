@@ -15,11 +15,13 @@ LoginFormSpec.ValidateCredentials = function()
 };
 LoginFormSpec.SetSuccess = function(result)
 {
-	this.setState({ success: "Success!" });
+	this.setState({ success: "Success!" , error: "" });
+	console.log(result);
+	this.props.onSuccess(result.session);
 };
 LoginFormSpec.SetError = function(result)
 {
-	this.setState({ error: result.responseJSON.error });
+	this.setState({ success: "", error: result.responseJSON.error });
 };
 LoginFormSpec.HandleLogIn = function(e)
 {
@@ -40,7 +42,7 @@ LoginFormSpec.getInitialState = function()
 };
 LoginFormSpec.componentDidMount = function()
 {
-	this.setState({ });
+	this.setState(this.getInitialState());
 };
 LoginFormSpec.render = function()
 {
@@ -54,7 +56,7 @@ LoginFormSpec.render = function()
 	if (this.state.error)
 	{
 		message = (
-			<p><font color="red">{this.state.error}</font></p>
+			<p class="error">{this.state.error}</p>
 		);
 	}
 	return (
