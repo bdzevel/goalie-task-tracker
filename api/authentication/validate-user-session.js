@@ -29,7 +29,7 @@ function ValidateUserSession(request, response, next)
 			response.status(401).end();
 			return;
 		}
-
+		
 		next();
 	}
 }

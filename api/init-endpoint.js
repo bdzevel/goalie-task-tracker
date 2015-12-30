@@ -1,8 +1,8 @@
 // ROOT/api
 
-var TS = require("./diagnostics/trace-sources").Get("HTTPS-Server");
+var TS = require("./diagnostics/trace-sources").Get("API-Server");
 
-TS.TraceVerbose(__filename, "Initializing HTTPS endpoint...");
+TS.TraceVerbose(__filename, "Initializing API endpoint...");
 
 var https = require("https");
 var handlers = require("./request-handlers");

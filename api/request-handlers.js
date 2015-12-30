@@ -1,6 +1,6 @@
 // ROOT/api
 
-var TS = require("./diagnostics/trace-sources").Get("HTTPS-Server");
+var TS = require("./diagnostics/trace-sources").Get("API-Server");
 
 TS.TraceVerbose(__filename, "Initializing request handlers...");
 
@@ -16,9 +16,15 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.json());
 
 // Enable Cross-Origin Resource Sharing (CORS)
-//	so our front end (HTTP) can make HTTP requests to the secure API (HTTPS)
+//	so our front end can make requests to the API
 var cors = require("cors");
-app.use(cors());
+app.use(cors({ origin: AnyOrigin, credentials: true }));
+function AnyOrigin(origin, callback)
+{
+	// Filter for a white list?
+	//var origins = ["http://localhost:3000"];
+	callback(null, true);
+}
 
 var session = require("client-sessions");
 var args = 
@@ -52,25 +58,10 @@ app.use(function (req, res, next)
 	next(err);
 });
 
-// development error handler
-// will print stacktrace
-if (env.get("ENVIRONMENT") === "development")
-{
-	app.use(function (err, req, res, next)
-	{
-		TS.TraceError(__filename, err.message);
-		res.status(err.status || 500);
-		res.end({ error: err.message });
-	});
-}
-
-// production error handler
-// no stacktraces leaked to user
 app.use(function (err, req, res, next)
 {
 	TS.TraceError(__filename, err.message);
-	res.status(err.status || 500);
-	res.end({ error: err.message });
+	res.status(err.status || 500).send({ error: err.message });
 });
 
 TS.TraceVerbose(__filename, "Request handlers initialized...");

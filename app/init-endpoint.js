@@ -1,35 +1,71 @@
 // ROOT/app
 
-var http = require("http");
+var TS = require("../api/diagnostics/trace-sources").Get("Web-App-Server");
+
+TS.TraceVerbose(__filename, "Initializing web app endpoint...");
+
+var https = require("https");
 var handlers = require("./request-handlers");
+require("ssl-root-cas").inject().addFile("root-ca.crt.pem");
 
-const port = 3000;
-var httpServer = http.createServer(handlers).listen(port);
-httpServer.on("error", OnError);
+var Promise = require("bluebird");
+var fs = Promise.promisifyAll(require("fs"));
 
-function OnError(error)
+var httpsOptions = { };
+fs.readFileAsync("server.key.pem")
+.then(function (data)
 {
-	if (error.syscall !== "listen")
-	{
-		throw error;
-	}
+	httpsOptions.key = data;
+	return fs.readFileAsync("server.crt.pem");
+}).then(function (data)
+{
+	httpsOptions.cert = data;
+	return Promise.promisify(SetupHTTPSEndpoint)(httpsOptions);
+}).then(null, HandleFileError);
 
-	var bind = typeof port === "string"
-	  ? "Pipe " + port
-	  : "Port " + port;
+function SetupHTTPSEndpoint(options)
+{
+	const port = 3000;
+	var httpsServer = https.createServer(options, handlers);
+	httpsServer.listen(port);
+	httpsServer.on("error", OnError);
 
-	// handle specific listen errors with friendly messages
-	switch (error.code)
+	TS.TraceVerbose(__filename, "Web app endpoint initialized");
+
+	function OnError(error)
 	{
-		case "EACCES":
-			console.error(bind + " requires elevated privileges");
-			process.exit(1);
-			break;
-		case "EADDRINUSE":
-			console.error(bind + " is already in use");
-			process.exit(1);
-			break;
-		default:
+		if (error.syscall !== "listen")
+		{
 			throw error;
+		}
+
+		var bind = typeof port === "string"
+		  ? "Pipe " + port
+		  : "Port " + port;
+
+		// handle specific listen errors with friendly messages
+		switch (error.code)
+		{
+			case "EACCES":
+				TS.TraceError(__filename, bind + " requires elevated privileges");
+				process.exit(1);
+				break;
+			case "EADDRINUSE":
+				TS.TraceError(__filename, bind + " is already in use");
+				process.exit(1);
+				break;
+			default:
+				throw error;
+		}
 	}
+}
+
+function HandleFileError(e)
+{
+	TS.TraceError(__filename, e.toString());
+	if (e.code == "ENOENT")
+	{
+		process.exit(1);
+	}
+	throw e;
 }

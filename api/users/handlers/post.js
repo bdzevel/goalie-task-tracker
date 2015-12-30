@@ -34,7 +34,7 @@ function POST(request, response)
 		{
 			var errmsg = "User '" + user.UserName + "' already exists!";
 			TS.TraceWarning(__filename, errmsg);
-			response.status(409).send({ error: err });
+			response.status(409).send({ error: errmsg });
 			return;
 		}
 

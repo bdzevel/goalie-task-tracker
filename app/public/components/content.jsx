@@ -1,10 +1,10 @@
-var LoginForm = require("./login/login.jsx");
-var RegisterForm = require("./register/register.jsx");
+var LoginForm = require("./login.jsx");
+var RegisterForm = require("./register.jsx");
 
 var ContentSpec = { };
-ContentSpec.HandleLogIn(session)
+ContentSpec.HandleLogIn = function(session)
 {
-	this.props.onLogIn(session);
+	this.props.onLogIn();
 };
 ContentSpec.render = function()
 {
@@ -22,13 +22,19 @@ ContentSpec.render = function()
 		else if (this.props.type == "Sign In")
 		{
 			dynamicContent = (
-				<LoginForm onSuccess=this.HandleLogIn />
+				<LoginForm onSuccess={this.HandleLogIn} />
 			);
 		}
 		else if (this.props.type == "Register")
 		{
 			dynamicContent = (
-				<RegisterForm onSuccess=this.HandleLogIn />
+				<RegisterForm onSuccess={this.HandleLogIn} />
+			);
+		}
+		else if (this.props.type == "Sign Out")
+		{
+			dynamicContent = (
+				<h3>You have clicked on {this.props.type}!</h3>
 			);
 		}
 	}
