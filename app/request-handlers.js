@@ -24,22 +24,9 @@ app.use(function(req, res, next)
 	next(err);
 });
 
-// development error handler
-// will print stacktrace
-if (env.get("ENVIRONMENT") === "development")
-{ 
-	app.use(function(err, req, res, next)
-	{
-		console.error(err);
-		res.status(err.status || 500);
-		res.end({ error: err.message });
-	});
-}
-
-// production error handler
-// no stacktraces leaked to user
 app.use(function(err, req, res, next)
 {
+	console.error(err);
 	res.status(err.status || 500);
 	res.end({ error: err.message });
 });

@@ -5,7 +5,6 @@ var Content = require("./content.jsx");
 var GoalieAppSpec = { };
 GoalieAppSpec.ValidateSession = function()
 {
-	console.log(window.location.hostname);
 	$.ajax({
 		async: true,
 		method: "GET",
