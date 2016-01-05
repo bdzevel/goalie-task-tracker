@@ -1,52 +1,53 @@
-var $ = require("jquery");
+var AJAX = require("../ajax.js");
+var constants = require("../resources/constants.js");
 
 var RegisterFormSpec = { };
+
 RegisterFormSpec.NewUser = function()
 {
-	var body = { username: this.state.username, email: this.state.email, password: this.state.password };
-	var jsonBody = JSON.stringify(body);
-	$.ajax({
-		async: true,
-		method: "POST",
-		url: "https://" + window.location.hostname + ":444/api/users",
-		data: jsonBody,
-		contentType: "application/json",
-		xhrFields: { withCredentials: true },
-		success: this.SetSuccess,
-		error: this.SetError
-	});
+	var body = JSON.stringify({ username: this.state.username, email: this.state.email, password: this.state.password });
+	AJAX("POST", constants.Users.URL, this.SetSuccess, this.SetError, body);
 }
+
 RegisterFormSpec.SetSuccess = function(result)
 {
 	this.setState({ success: "Success!", error: undefined });
 	this.props.onSuccess(result.session);
 }
+
 RegisterFormSpec.SetError = function(result)
 {
 	this.setState({ success: undefined, error: result.responseJSON.error });
 }
+
 RegisterFormSpec.HandleRegister = function(e)
 {
 	e.preventDefault();
 	this.NewUser();
 }
+
 RegisterFormSpec.HandleUserNameChange = function(e)
 {
 	this.setState({ username: e.target.value });
 }
+
 RegisterFormSpec.HandleEmailChange = function(e)
 {
+	
 	this.setState({ email: e.target.value });
 }
 RegisterFormSpec.HandlePasswordChange = function(e)
 {
 	this.setState({ password: e.target.value });
 }
+
 RegisterFormSpec.getInitialState = function()
 {
 	return { };
 }
+
 RegisterFormSpec.componentDidMount = function() { }
+
 RegisterFormSpec.render = function() {
 	var message = "";
 	if (this.state.success)

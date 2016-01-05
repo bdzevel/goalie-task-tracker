@@ -1,8 +1,10 @@
 var LoginForm = require("./login.jsx");
+var GoalList = require("./goal-list.jsx");
+var NewGoalForm = require("./new-goal.jsx");
 var RegisterForm = require("./register.jsx");
 
 var ContentSpec = { };
-ContentSpec.HandleLogIn = function(session)
+ContentSpec.HandleLogIn = function()
 {
 	this.props.onLogIn();
 };
@@ -15,9 +17,31 @@ ContentSpec.render = function()
 	{
 		if (this.props.type == "Home")
 		{
-			dynamicContent = (
-				<h3>You have clicked on {this.props.type}!</h3>
-			);
+			if (this.props.hasUserSession && this.props.goals && this.props.goals !== [])
+			{
+				var goals = this.props.goals;
+				dynamicContent = (
+					<div>
+						<GoalList goals={goals} />
+						<NewGoalForm />
+					</div>
+				);
+			}
+			else if (this.props.hasUserSession)
+			{
+				dynamicContent = (
+					<div>
+						<h3>No goals! Submit one!!</h3>
+						<NewGoalForm />
+					</div>
+				);
+			}
+			else
+			{
+				dynamicContent = (
+					<h3>Please sign in</h3>
+				);
+			}
 		}
 		else if (this.props.type == "Sign In")
 		{

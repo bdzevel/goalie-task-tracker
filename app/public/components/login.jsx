@@ -1,48 +1,48 @@
-var $ = require('jquery');
+var AJAX = require("../ajax.js");
+var constants = require("../resources/constants.js");
 
 var LoginFormSpec = { };
+
 LoginFormSpec.ValidateCredentials = function()
 {
-	var body = { username: this.state.username, password: this.state.password };
-	var jsonBody = JSON.stringify(body);
-	$.ajax({
-		async: true,
-		method: "POST",
-		url: "https://" + window.location.hostname + ":444/api/authentication",
-		data: jsonBody,
-		contentType: "application/json",
-		xhrFields: { withCredentials: true },
-		success: this.SetSuccess,
-		error: this.SetError
-	});
+	var body = JSON.stringify({ username: this.state.username, password: this.state.password });
+	AJAX("POST", constants.Authentication.URL, this.SetSuccess, this.SetError, body);
 }
+
 LoginFormSpec.SetSuccess = function(result)
 {
 	this.setState({ success: "Success!" , error: "" });
-	this.props.onSuccess(result.session);
+	this.props.onSuccess();
 }
+
 LoginFormSpec.SetError = function(result)
 {
 	this.setState({ success: "", error: result.responseJSON.error });
 }
+
 LoginFormSpec.HandleLogIn = function(e)
 {
 	e.preventDefault();
 	this.ValidateCredentials();
 }
+
 LoginFormSpec.HandleUserNameChange = function(e)
 {
 	this.setState({ username: e.target.value });
 }
+
 LoginFormSpec.HandlePasswordChange = function(e)
 {
 	this.setState({ password: e.target.value });
 }
+
 LoginFormSpec.getInitialState = function()
 {
 	return ({ });
 }
+
 LoginFormSpec.componentDidMount = function() { }
+
 LoginFormSpec.render = function()
 {
 	var message = "";

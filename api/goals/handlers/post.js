@@ -21,7 +21,7 @@ function POST(request, response)
 	newGoal.UserID = userID;
 	newGoal.Description = goal.Description;
 	newGoal.Reason = goal.Reason;
-	newGoal.Priority = goal.Priority;
+	newGoal.Priority = goal.Priority || 1;
 	newGoal.save(OnGoalSaved);
 
 	function OnGoalSaved(err, goal)
@@ -33,7 +33,7 @@ function POST(request, response)
 			return;
 		}
 
-		response.status(200).end();
+		response.status(200).send({ goal: goal });
 	}
 };
 

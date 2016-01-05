@@ -7,7 +7,6 @@ function PUT(request, response)
 {
 	// Update goal
 	var userID = request.session.userid;
-	var goalID = request.params["id"];
 	var updatedGoal = request.body["goal"];
 
 	if (!updatedGoal)
@@ -18,7 +17,7 @@ function PUT(request, response)
 		return;
 	}
 
-	Goal.findByID(goalID, OnGoalFound);
+	Goal.findById(updatedGoal._id, OnGoalFound);
 
 	function OnGoalFound(err, goal)
 	{
@@ -51,7 +50,7 @@ function PUT(request, response)
 				return;
 			}
 
-			response.status(200).end();
+			response.status(200).send({ goal: goal });
 		}
 	}
 };

@@ -9,7 +9,7 @@ function DELETE(request, response)
 	var userID = request.session.userid;
 	var goalID = request.params["id"];
 
-	Goal.findByID(goalID, OnGoalFound);
+	Goal.findById(goalID, OnGoalFound);
 
 	function OnGoalFound(err, goal)
 	{
@@ -39,7 +39,7 @@ function DELETE(request, response)
 				return;
 			}
 
-			response.status(200).end();
+			response.status(200).send({ goal: goal });
 		}
 	}
 };
