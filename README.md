@@ -16,15 +16,20 @@ NOTES:
 The "util" folder contains some helpful scripts:
 
 1)
+
 	install-packages.ps1
 	A PowerShell script that will install all npm packages for the front and back end (they have separate package.json files).
 	npm does the hard work, so it's easy enough to do manually too.
 	Must be run from the root folder.
+	
 2)
+
 	generate-certificates.ps1
 	A PowerShell script to generate the appropriate certificates that could be used for testing.
 	It's not recommended to use these certificates for anything real because they won't be trusted by anyone.
+	
 3)
+
 	build.ps1
 	A PowerShell script that will build the front end.
 	This just runs an npm script saved in package.json, so it's easy enough to do manually.
