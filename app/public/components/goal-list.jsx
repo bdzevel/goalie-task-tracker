@@ -1,19 +1,52 @@
-var actions = require("../actions/goal-actions.js");
 var GoalListItem = require("./goal-list-item.jsx");
 
+var GoalActions = require("../actions/goal-actions.js");
+var GoalStore = require("../stores/goal-store.js");
+
 var GoalListSpec = { };
+
+GoalListSpec.UpdateGoals = function()
+{
+	this.setState({ goals: GoalStore.GetGoals() });
+}
+
+GoalListSpec.MarkAllDone = function(e)
+{
+	e.preventDefault();
+	GoalActions.CompleteAll();
+}
 
 GoalListSpec.ClearAll = function(e)
 {
 	e.preventDefault();
-	actions.Clear();
+	GoalActions.Clear();
+}
+
+GoalListSpec.getInitialState = function()
+{
+	return { goals: [] };
+}
+
+GoalListSpec.componentDidMount = function()
+{
+	GoalStore.AddUpdateListener(this.UpdateGoals);
+	GoalActions.Fetch();
+}
+
+GoalListSpec.componentWillUnmount = function()
+{
+	GoalStore.RemoveUpdateListener(this.UpdateGoals);
 }
 
 GoalListSpec.render = function()
 {
-	var goals = this.props.goals;
-	return (
-		<div className="goalList">
+	var content = (
+		<h3>You have no goals... Please submit one.</h3>
+	);
+	if (this.state.goals && this.state.goals.length != 0)
+	{
+		var goals = this.state.goals;
+		content = (
 			<ul>
 				{
 					goals.map(function(goal) {
@@ -21,7 +54,13 @@ GoalListSpec.render = function()
 					})
 				}
 			</ul>
-			<a href="#" onClick={this.ClearAll}>CLEAR_ALL_CLICK_AT_OWN_RISK</a>
+		);
+	}
+	return (
+		<div className="goalList">
+			{content}
+			<p><a href="#" onClick={this.MarkAllDone}>Mark All Done</a></p>
+			<p><a href="#" onClick={this.ClearAll}>CLEAR ALL</a> <em>(CLICK AT YOUR OWN RISK)</em></p>
 		</div>
 	);
 }

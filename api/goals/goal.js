@@ -8,6 +8,7 @@ var fields =
 	Description: String,
 	Reason: String,
 	Priority: Number,
+	IsComplete: Boolean,
 	Date: { type: Date, default: Date.now }
 };
 var schema = new mongoose.Schema(fields);

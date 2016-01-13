@@ -3,64 +3,83 @@ var GoalList = require("./goal-list.jsx");
 var NewGoalForm = require("./new-goal.jsx");
 var RegisterForm = require("./register.jsx");
 
+var NavStore = require("../stores/nav-store.js");
+var AuthStore = require("../stores/auth-store.js");
+var constants = require("../resources/constants.js");
+
 var ContentSpec = { };
-ContentSpec.HandleLogIn = function()
+
+ContentSpec.Navigate = function(action)
 {
-	this.props.onLogIn();
-};
+	this.setState({ type: action });
+}
+
+ContentSpec.OnSignIn = function()
+{
+	this.setState({ type: constants.Navigation.Pages.Home, isSignedIn: true });
+}
+
+ContentSpec.OnSignOut = function()
+{
+	this.setState(this.getInitialState());
+}
+
+ContentSpec.componentDidMount = function()
+{
+	NavStore.AddNavigateListener(this.Navigate);
+	
+	AuthStore.AddSignInListener(this.OnSignIn);
+	AuthStore.AddSignOutListener(this.OnSignOut);
+}
+
+ContentSpec.componentWillUnmount = function()
+{
+	NavStore.RemoveNavigateListener(this.Navigate);
+	
+	AuthStore.RemoveSignInListener(this.OnSignIn);
+	AuthStore.RemoveSignOutListener(this.OnSignOut);
+}
+
+ContentSpec.getInitialState = function()
+{
+	return { type: constants.Navigation.Pages.Home, isSignedIn: false };
+}
+
 ContentSpec.render = function()
 {
 	var dynamicContent = (
 		<br />
 	);
-	if (this.props.type)
+	if (this.state.type == constants.Navigation.Pages.Home)
 	{
-		if (this.props.type == "Home")
+		if (this.state.isSignedIn)
 		{
-			if (this.props.hasUserSession && this.props.goals && this.props.goals !== [])
-			{
-				var goals = this.props.goals;
-				dynamicContent = (
-					<div>
-						<GoalList goals={goals} />
-						<NewGoalForm />
-					</div>
-				);
-			}
-			else if (this.props.hasUserSession)
-			{
-				dynamicContent = (
-					<div>
-						<h3>No goals! Submit one!!</h3>
-						<NewGoalForm />
-					</div>
-				);
-			}
-			else
-			{
-				dynamicContent = (
-					<h3>Please sign in</h3>
-				);
-			}
-		}
-		else if (this.props.type == "Sign In")
-		{
+			var goals = this.props.goals;
 			dynamicContent = (
-				<LoginForm onSuccess={this.HandleLogIn} />
+				<div>
+					<GoalList />
+					<NewGoalForm />
+				</div>
 			);
 		}
-		else if (this.props.type == "Register")
+		else
 		{
 			dynamicContent = (
-				<RegisterForm onSuccess={this.HandleLogIn} />
+				<h3>Please sign in...</h3>
 			);
 		}
-		else if (this.props.type == "Sign Out")
-		{
-			dynamicContent = (
-				<h3>You have clicked on {this.props.type}!</h3>
-			);
-		}
+	}
+	else if (this.state.type == constants.Navigation.Pages.SignIn)
+	{
+		dynamicContent = (
+			<LoginForm />
+		);
+	}
+	else if (this.state.type == constants.Navigation.Pages.Registration)
+	{
+		dynamicContent = (
+			<RegisterForm />
+		);
 	}
 	return (
 		<div className="content">

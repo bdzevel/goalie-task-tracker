@@ -1,8 +1,8 @@
 var $ = require("jquery");
 var AJAX = require("../ajax.js");
 var EventEmitter = require("events").EventEmitter;
-var constants = require("../resources/constants.js");
 var Dispatcher = require("../dispatcher/dispatcher.js");
+var constants = require("../resources/constants.js").Goals;
 
 var _Goals = [];
 
@@ -16,15 +16,15 @@ GoalStore.prototype.GetGoals = function()
 
 GoalStore.prototype.NotifyUpdated = function()
 {
-	this.emit(constants.Goals.Events.Updated);
+	this.emit(constants.Events.OnUpdate);
 }
 GoalStore.prototype.AddUpdateListener = function(callback)
 {
-	this.on(constants.Goals.Events.Updated, callback);
+	this.on(constants.Events.OnUpdate, callback);
 }
 GoalStore.prototype.RemoveUpdateListener = function(callback)
 {
-	this.removeListener(constants.Goals.Events.Updated, callback);
+	this.removeListener(constants.Events.OnUpdate, callback);
 }
 
 var store = new GoalStore();
@@ -32,33 +32,40 @@ Dispatcher.register(GoalActionHandler);
 
 function GoalActionHandler(action)
 {
-	if (action.Type === constants.Goals.Actions.Fetch)
+	if (action.Type === constants.Actions.Fetch)
 	{
 		Fetch();
 	}
-	else if (action.Type == constants.Goals.Actions.Create)
+	else if (action.Type == constants.Actions.Create)
 	{
 		Create(action.Payload);
 	}
-	else if (action.Type == constants.Goals.Actions.Update)
+	else if (action.Type == constants.Actions.Update)
 	{
 		Update(action.Payload);
 	}
-	else if (action.Type == constants.Goals.Actions.Delete)
+	else if (action.Type == constants.Actions.Delete)
 	{
 		Delete(action.Payload);
 	}
-	else if (action.Type == constants.Goals.Actions.Clear)
+	else if (action.Type == constants.Actions.CompleteAll)
+	{
+		for (var i in _Goals)
+		{
+			var goal = _Goals[i];
+			if (goal.IsComplete)
+				continue;
+			goal.IsComplete = true;
+			Update(goal);
+		}
+	}
+	else if (action.Type == constants.Actions.Clear)
 	{
 		for (var i in _Goals)
 		{
 			var goal = _Goals[i];
 			Delete(goal);
 		}
-	}
-	else
-	{
-		console.error("Not Implemented: " + action.Type);
 	}
 }
 
@@ -70,7 +77,7 @@ function OnError(result)
 
 function Fetch()
 {
-	AJAX("GET", constants.Goals.URL, OnFetched, OnError);
+	AJAX("GET", constants.URL, OnFetched, OnError);
 }
 function OnFetched(result)
 {
@@ -81,7 +88,7 @@ function OnFetched(result)
 function Create(goal)
 {
 	var body = JSON.stringify({ goal: goal});
-	AJAX("POST", constants.Goals.URL, OnCreated, OnError, body);
+	AJAX("POST", constants.URL, OnCreated, OnError, body);
 }
 function OnCreated(result)
 {
@@ -92,7 +99,7 @@ function OnCreated(result)
 function Update(goal)
 {
 	var body = JSON.stringify({ goal: goal});
-	AJAX("PUT", constants.Goals.URL + "/" + goal._id, OnUpdated, OnError, body);
+	AJAX("PUT", constants.URL + "/" + goal._id, OnUpdated, OnError, body);
 }
 function OnUpdated(result)
 {
@@ -104,7 +111,7 @@ function OnUpdated(result)
 function Delete(goal)
 {
 	var body = JSON.stringify({ id: goal._id});
-	AJAX("DELETE", constants.Goals.URL + "/" + goal._id, OnDeleted, OnError, body);
+	AJAX("DELETE", constants.URL + "/" + goal._id, OnDeleted, OnError, body);
 }
 function OnDeleted(result)
 {

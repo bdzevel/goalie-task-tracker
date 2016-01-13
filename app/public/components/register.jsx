@@ -1,29 +1,18 @@
-var AJAX = require("../ajax.js");
-var constants = require("../resources/constants.js");
+var UserStore = require("../stores/user-store.js");
+var UserActions = require("../actions/user-actions.js");
 
 var RegisterFormSpec = { };
-
-RegisterFormSpec.NewUser = function()
-{
-	var body = JSON.stringify({ username: this.state.username, email: this.state.email, password: this.state.password });
-	AJAX("POST", constants.Users.URL, this.SetSuccess, this.SetError, body);
-}
-
-RegisterFormSpec.SetSuccess = function(result)
-{
-	this.setState({ success: "Success!", error: undefined });
-	this.props.onSuccess(result.session);
-}
-
-RegisterFormSpec.SetError = function(result)
-{
-	this.setState({ success: undefined, error: result.responseJSON.error });
-}
 
 RegisterFormSpec.HandleRegister = function(e)
 {
 	e.preventDefault();
-	this.NewUser();
+	this.setState({ error: null });
+	UserActions.Create(this.state);
+}
+
+RegisterFormSpec.HandleError = function(error)
+{
+	this.setState({ error: error });
 }
 
 RegisterFormSpec.HandleUserNameChange = function(e)
@@ -46,16 +35,18 @@ RegisterFormSpec.getInitialState = function()
 	return { };
 }
 
-RegisterFormSpec.componentDidMount = function() { }
+RegisterFormSpec.componentDidMount = function()
+{
+	UserStore.AddErrorListener(this.HandleError);
+}
+
+RegisterFormSpec.componentWillUnmount = function()
+{
+	UserStore.RemoveErrorListener(this.HandleError);
+}
 
 RegisterFormSpec.render = function() {
 	var message = "";
-	if (this.state.success)
-	{
-		message = (
-			<p><font color="green">Success!</font></p>
-		);
-	}
 	if (this.state.error)
 	{
 		message = (

@@ -1,4 +1,4 @@
-var actions = require("../actions/goal-actions.js");
+var GoalActions = require("../actions/goal-actions.js");
 
 var NewGoalFormSpec = { };
 
@@ -6,7 +6,7 @@ NewGoalFormSpec.NewGoal = function(e)
 {
 	e.preventDefault();
 	var goal = { Description: this.state.description, Reason: this.state.reason };
-	actions.Create(goal);
+	GoalActions.Create(goal);
 	this.setState(this.getInitialState());
 }
 

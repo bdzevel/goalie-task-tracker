@@ -1,29 +1,18 @@
-var AJAX = require("../ajax.js");
-var constants = require("../resources/constants.js");
+var AuthStore = require("../stores/auth-store.js");
+var AuthActions = require("../actions/auth-actions.js");
 
 var LoginFormSpec = { };
-
-LoginFormSpec.ValidateCredentials = function()
-{
-	var body = JSON.stringify({ username: this.state.username, password: this.state.password });
-	AJAX("POST", constants.Authentication.URL, this.SetSuccess, this.SetError, body);
-}
-
-LoginFormSpec.SetSuccess = function(result)
-{
-	this.setState({ success: "Success!" , error: "" });
-	this.props.onSuccess();
-}
-
-LoginFormSpec.SetError = function(result)
-{
-	this.setState({ success: "", error: result.responseJSON.error });
-}
 
 LoginFormSpec.HandleLogIn = function(e)
 {
 	e.preventDefault();
-	this.ValidateCredentials();
+	this.setState({ error: null });
+	AuthActions.SignIn(this.state);
+}
+
+LoginFormSpec.HandleError = function(error)
+{
+	this.setState({ error: error });
 }
 
 LoginFormSpec.HandleUserNameChange = function(e)
@@ -41,17 +30,19 @@ LoginFormSpec.getInitialState = function()
 	return ({ });
 }
 
-LoginFormSpec.componentDidMount = function() { }
+LoginFormSpec.componentDidMount = function()
+{
+	AuthStore.AddErrorListener(this.HandleError);
+}
+
+LoginFormSpec.componentWillUnmount = function()
+{
+	AuthStore.RemoveErrorListener(this.HandleError);
+}
 
 LoginFormSpec.render = function()
 {
 	var message = "";
-	if (this.state.success)
-	{
-		message = (
-			<p><font color="green">Success!</font></p>
-		);
-	}
 	if (this.state.error)
 	{
 		message = (

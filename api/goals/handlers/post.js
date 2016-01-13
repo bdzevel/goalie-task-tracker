@@ -22,6 +22,7 @@ function POST(request, response)
 	newGoal.Description = goal.Description;
 	newGoal.Reason = goal.Reason;
 	newGoal.Priority = goal.Priority || 1;
+	newGoal.IsComplete = false;
 	newGoal.save(OnGoalSaved);
 
 	function OnGoalSaved(err, goal)

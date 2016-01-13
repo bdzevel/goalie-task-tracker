@@ -39,6 +39,7 @@ function PUT(request, response)
 		goal.Description = updatedGoal.Description;
 		goal.Reason = updatedGoal.Reason;
 		goal.Priority = updatedGoal.Priority;
+		goal.IsComplete = updatedGoal.IsComplete;
 		goal.save(OnGoalSaved);
 
 		function OnGoalSaved(err, goal)
