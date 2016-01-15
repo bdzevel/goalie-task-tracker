@@ -62,7 +62,8 @@ var constants =
 		},
 		Events:
 		{
-			OnUpdate: "GOALS.EVENT.ON_UPDATE"
+			OnUpdate: "GOALS.EVENT.ON_UPDATE",
+			OnUpdateAll: "GOALS.EVENT.ON_UPDATE_ALL"
 		}
 	}
 };

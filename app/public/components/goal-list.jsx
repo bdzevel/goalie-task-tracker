@@ -29,13 +29,13 @@ GoalListSpec.getInitialState = function()
 
 GoalListSpec.componentDidMount = function()
 {
-	GoalStore.AddUpdateListener(this.UpdateGoals);
+	GoalStore.AddUpdateAllListener(this.UpdateGoals);
 	GoalActions.Fetch();
 }
 
 GoalListSpec.componentWillUnmount = function()
 {
-	GoalStore.RemoveUpdateListener(this.UpdateGoals);
+	GoalStore.AddUpdateAllListener(this.UpdateGoals);
 }
 
 GoalListSpec.render = function()
@@ -59,7 +59,6 @@ GoalListSpec.render = function()
 	return (
 		<div className="goalList">
 			{content}
-			<p><a href="#" onClick={this.MarkAllDone}>Mark All Done</a></p>
 			<p><a href="#" onClick={this.ClearAll}>CLEAR ALL</a> <em>(CLICK AT YOUR OWN RISK)</em></p>
 		</div>
 	);

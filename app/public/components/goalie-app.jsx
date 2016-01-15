@@ -1,13 +1,9 @@
 var NavBar = require("./navbar.jsx");
 var Content = require("./content.jsx");
+
 var AuthActions = require("../actions/auth-actions.js");
 
 var GoalieAppSpec = { };
-
-GoalieAppSpec.getInitialState = function()
-{
-	return { };
-}
 
 GoalieAppSpec.componentDidMount = function()
 {

@@ -14,9 +14,9 @@ GoalStore.prototype.GetGoals = function()
 	return _Goals;
 }
 
-GoalStore.prototype.NotifyUpdated = function()
+GoalStore.prototype.NotifyUpdate = function(goal)
 {
-	this.emit(constants.Events.OnUpdate);
+	this.emit(constants.Events.OnUpdate, goal);
 }
 GoalStore.prototype.AddUpdateListener = function(callback)
 {
@@ -25,6 +25,19 @@ GoalStore.prototype.AddUpdateListener = function(callback)
 GoalStore.prototype.RemoveUpdateListener = function(callback)
 {
 	this.removeListener(constants.Events.OnUpdate, callback);
+}
+
+GoalStore.prototype.NotifyUpdateAll = function()
+{
+	this.emit(constants.Events.OnUpdateAll);
+}
+GoalStore.prototype.AddUpdateAllListener = function(callback)
+{
+	this.on(constants.Events.OnUpdateAll, callback);
+}
+GoalStore.prototype.RemoveUpdateAllListener = function(callback)
+{
+	this.removeListener(constants.Events.OnUpdateAll, callback);
 }
 
 var store = new GoalStore();
@@ -82,7 +95,7 @@ function Fetch()
 function OnFetched(result)
 {
 	_Goals = result.goals;
-	store.NotifyUpdated();
+	store.NotifyUpdateAll();
 }
 
 function Create(goal)
@@ -93,7 +106,7 @@ function Create(goal)
 function OnCreated(result)
 {
 	_Goals.push(result.goal);
-	store.NotifyUpdated();
+	store.NotifyUpdateAll();
 }
 
 function Update(goal)
@@ -105,7 +118,7 @@ function OnUpdated(result)
 {
 	_Goals = $.grep(_Goals, function(g) { return (g._id !== result.goal._id); });
 	_Goals.push(result.goal);
-	store.NotifyUpdated();
+	store.NotifyUpdate(result.goal);
 }
 
 function Delete(goal)
@@ -116,7 +129,7 @@ function Delete(goal)
 function OnDeleted(result)
 {
 	_Goals = $.grep(_Goals, function(g) { return (g._id !== result.goal._id); });
-	store.NotifyUpdated();
+	store.NotifyUpdateAll();
 }
 
 module.exports = store;
