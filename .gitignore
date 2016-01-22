@@ -22,12 +22,14 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
-# Dependency directory
-# https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
+# Dependency directories
 node_modules
 app/node_modules
 app/bower_components
 app/public/lib
+
+# Compiled front-end "bundle"
+app/public/bundle.jsx
 
 *.env
 *.pem

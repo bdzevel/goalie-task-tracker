@@ -1,7 +1,8 @@
 var Row = require("react-bootstrap").Row;
 var Col = require("react-bootstrap").Col;
 var Grid = require("react-bootstrap").Grid;
-var ListGroupItem = require("react-bootstrap").ListGroupItem;
+
+var ConfirmationDialog = require("./confirm-dialog.jsx");
 
 var GoalStore = require("../stores/goal-store.js");
 var GoalActions = require("../actions/goal-actions.js");
@@ -17,10 +18,21 @@ GoalListItemSpec.Update = function(goal)
 	this.setState({ });
 }
 
-GoalListItemSpec.Delete = function(e)
+GoalListItemSpec.ConfirmDelete = function(e)
 {
 	e.preventDefault();
+	this.setState({ showConfirmDialog: true });
+}
+
+GoalListItemSpec.HideModal = function()
+{
+	this.setState({ showConfirmDialog: false });
+}
+
+GoalListItemSpec.Delete = function(e)
+{
 	GoalActions.Delete(this.props.goal);
+	this.HideModal();
 }
 
 GoalListItemSpec.HandleIsCompleteChanged = function(e)
@@ -32,7 +44,7 @@ GoalListItemSpec.HandleIsCompleteChanged = function(e)
 
 GoalListItemSpec.getInitialState = function()
 {
-	return { isComplete: this.props.goal.IsComplete };
+	return { isComplete: this.props.goal.IsComplete, showConfirmDialog: false };
 }
 
 GoalListItemSpec.componentDidMount = function()
@@ -47,12 +59,21 @@ GoalListItemSpec.componentWillUnmount = function()
 
 GoalListItemSpec.render = function()
 {
+	// NOTE: This is a super-custom "ListGroupItem" (which is an actual react-bootstrap component)
+	//	It had to be customized completely because of issues nesting the Grid I wanted inside a "<p>" tag,
+	//	 which it  guess is what the standard "ListGroupItem" implementation does somewhere along the way.
+	//	Initially it was just giving a warning in Chrome, but ultimately when implementing the "ConfirmationDialog" modal,
+	//	 it actually started to throw errors.
+	
 	// TODO: Find a good way to "complete" a task
 	// TODO: Find a good way to indicate task is "completed"
-	let goal = this.props.goal;
+	var goal = this.props.goal;
 	return (
-		<ListGroupItem header={goal.Description} bsStyle={this.state.isComplete ? "success" : "info"}>
-			<Grid fluid>
+		<li className={"list-group-item list-group-item-" + (this.state.isComplete ? "success" : "info")}>
+			<Grid fluid>	
+				<Row>
+					<h4>{goal.Description}</h4>
+				</Row>
 				<Row>
 					<Col md={7}>
 						{goal.Reason}
@@ -61,11 +82,21 @@ GoalListItemSpec.render = function()
 						{goal.Date.toDateString()}
 					</Col>
 					<Col md={1}>
-						<input type="checkbox" name="isComplete" checked={this.state.isComplete} onChange={this.HandleIsCompleteChanged} /> <a href="#" onClick={this.Delete}>x</a>
+						<input type="checkbox" name="isComplete" checked={this.state.isComplete} onChange={this.HandleIsCompleteChanged} />
+						<a href="#" onClick={this.ConfirmDelete}>x</a>
 					</Col>
 				</Row>
 			</Grid>
-		</ListGroupItem>
+			<ConfirmationDialog
+				show={this.state.showConfirmDialog}
+				title="Are you sure?"
+				description={"This will delete the goal forever.\nThere will be no further record of it."}
+				actiontext="Delete Forever"
+				onCancel={this.HideModal}
+				onConfirm={this.Delete}
+				style="danger"
+			/>
+		</li>
 	);
 }
 

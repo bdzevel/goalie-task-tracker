@@ -44,11 +44,7 @@ LoginFormSpec.render = function()
 {
 	var message = "";
 	if (this.state.error)
-	{
-		message = (
-			<p className="error">{this.state.error}</p>
-		);
-	}
+		message = <p className="error">{this.state.error}</p>;
 	return (
 		<form className="loginForm" onSubmit={this.HandleLogIn}>
 			<p><input type="text" placeholder="Username" value={this.state.username} onChange={this.HandleUserNameChange} /></p>

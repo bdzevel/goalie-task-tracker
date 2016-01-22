@@ -47,14 +47,12 @@ ContentSpec.getInitialState = function()
 
 ContentSpec.render = function()
 {
-	let dynamicContent = (
-		<br />
-	);
+	var dynamicContent = <br />;
 	if (this.state.type == constants.Navigation.Pages.Home)
 	{
 		if (this.state.isSignedIn)
 		{
-			let goals = this.props.goals;
+			var goals = this.props.goals;
 			dynamicContent = (
 				<div>
 					<GoalList />
@@ -64,22 +62,16 @@ ContentSpec.render = function()
 		}
 		else
 		{
-			dynamicContent = (
-				<h3>Please sign in...</h3>
-			);
+			dynamicContent = <h3>Please sign in...</h3>;
 		}
 	}
 	else if (this.state.type == constants.Navigation.Pages.SignIn)
 	{
-		dynamicContent = (
-			<LoginForm />
-		);
+		dynamicContent = <LoginForm />;
 	}
 	else if (this.state.type == constants.Navigation.Pages.Registration)
 	{
-		dynamicContent = (
-			<RegisterForm />
-		);
+		dynamicContent = <RegisterForm />;
 	}
 	return (
 		<div className="content">

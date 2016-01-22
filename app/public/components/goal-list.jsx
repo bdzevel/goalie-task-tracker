@@ -44,21 +44,18 @@ GoalListSpec.componentWillUnmount = function()
 
 GoalListSpec.render = function()
 {
-	let content = <h3>You have no goals... Please submit one.</h3>;
-	if (this.state.goals && this.state.goals.length != 0)
+	var goals = this.state.goals;
+	var content = <h3>You have no goals... Please submit one.</h3>;
+	if (goals && goals.length != 0)
 	{
-		let goals = this.state.goals;
 		content = (
-			<ListGroup>
+			<ListGroup componentClass="ul">
 				{ goals.map(function(goal) { return <GoalListItem key={goal._id} goal={goal} />; }) }
 			</ListGroup>
 		);
 	}
-	
-	// Note: "goal-list" class found in our own app.css
-	//	It limits the width of this element so it doesn't look too stretched out with not enough content.
 	return (
-		<div class="goal-list">
+		<div>
 			{content}
 			<p><a href="#" onClick={this.ClearAll}>CLEAR ALL</a> <em>(CLICK AT YOUR OWN RISK)</em></p>
 		</div>

@@ -1,5 +1,5 @@
-var Navbar = require("react-bootstrap").Navbar;
 var Nav = require("react-bootstrap").Nav;
+var Navbar = require("react-bootstrap").Navbar;
 var NavItem = require("react-bootstrap").NavItem;
 
 var AuthStore = require("../stores/auth-store.js");
@@ -68,7 +68,6 @@ NavBarSpec.getInitialState = function()
 NavBarSpec.componentWillMount = function()
 {
 	this.Actions = [];
-	this.RegisterAction("Home", this.CanGoHome, this.OnClickHome);
 	this.RegisterAction("Sign In", this.CanSignIn, this.OnClickSignIn);
 	this.RegisterAction("Register", this.CanRegister, this.OnClickRegister);
 	this.RegisterAction("Sign Out", this.CanSignOut, this.OnClickSignOut);
@@ -96,15 +95,9 @@ NavBarSpec.render = function()
 	var items = this.Actions.map(function(action)
 	{
 		if (action.CanExecute())
-		{
-			return (
-				<NavItem key={action.Name} onClick={action.Execute}>{action.Name}</NavItem>
-			);
-		}
+			return <NavItem key={action.Name} onClick={action.Execute}>{action.Name}</NavItem>;
 		else
-		{
 			return null;
-		}
 	});
 	var navBar = (
 		<Navbar fluid>
