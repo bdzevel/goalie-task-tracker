@@ -65,7 +65,7 @@ function GoalActionHandler(action)
 	{
 		for (var i in _Goals)
 		{
-			var goal = _Goals[i];
+			let goal = _Goals[i];
 			if (goal.IsComplete)
 				continue;
 			goal.IsComplete = true;
@@ -76,7 +76,7 @@ function GoalActionHandler(action)
 	{
 		for (var i in _Goals)
 		{
-			var goal = _Goals[i];
+			let goal = _Goals[i];
 			Delete(goal);
 		}
 	}
@@ -94,42 +94,50 @@ function Fetch()
 }
 function OnFetched(result)
 {
-	_Goals = result.goals;
+	_Goals = result.goals.map(NormalizeDate);
 	store.NotifyUpdateAll();
 }
 
 function Create(goal)
 {
-	var body = JSON.stringify({ goal: goal});
+	let body = JSON.stringify({ goal: goal});
 	AJAX("POST", constants.URL, OnCreated, OnError, body);
 }
 function OnCreated(result)
 {
-	_Goals.push(result.goal);
+	let goal = NormalizeDate(result.goal);
+	_Goals.push(goal);
 	store.NotifyUpdateAll();
 }
 
 function Update(goal)
 {
-	var body = JSON.stringify({ goal: goal});
+	let body = JSON.stringify({ goal: goal });
 	AJAX("PUT", constants.URL + "/" + goal._id, OnUpdated, OnError, body);
 }
 function OnUpdated(result)
 {
-	_Goals = $.grep(_Goals, function(g) { return (g._id !== result.goal._id); });
-	_Goals.push(result.goal);
-	store.NotifyUpdate(result.goal);
+	let goal = NormalizeDate(result.goal);
+	_Goals = $.grep(_Goals, function(g) { return (g._id !== goal._id); });
+	_Goals.push(goal);
+	store.NotifyUpdate(goal);
 }
 
 function Delete(goal)
 {
-	var body = JSON.stringify({ id: goal._id});
+	let body = JSON.stringify({ id: goal._id});
 	AJAX("DELETE", constants.URL + "/" + goal._id, OnDeleted, OnError, body);
 }
 function OnDeleted(result)
 {
 	_Goals = $.grep(_Goals, function(g) { return (g._id !== result.goal._id); });
 	store.NotifyUpdateAll();
+}
+
+function NormalizeDate(goal)
+{
+	goal.Date = new Date(goal.Date);
+	return goal;
 }
 
 module.exports = store;

@@ -1,4 +1,7 @@
-var ReactTooltip = require("react-tooltip");
+var Row = require("react-bootstrap").Row;
+var Col = require("react-bootstrap").Col;
+var Grid = require("react-bootstrap").Grid;
+var ListGroupItem = require("react-bootstrap").ListGroupItem;
 
 var GoalStore = require("../stores/goal-store.js");
 var GoalActions = require("../actions/goal-actions.js");
@@ -39,24 +42,30 @@ GoalListItemSpec.componentDidMount = function()
 
 GoalListItemSpec.componentWillUnmount = function()
 {
-	GoalStore.AddUpdateListener(this.Update);
+	GoalStore.RemoveUpdateListener(this.Update);
 }
 
 GoalListItemSpec.render = function()
 {
-	var goal = this.props.goal;
-	var goalText = (
-		<a data-tip data-for={goal._id}>{goal.Description}</a>
-	);
-	if (this.state.isComplete)
-	{
-		goalText = <del>{goalText}</del>;
-	}
+	// TODO: Find a good way to "complete" a task
+	// TODO: Find a good way to indicate task is "completed"
+	let goal = this.props.goal;
 	return (
-		<li>
-			<input type="checkbox" name="isComplete" checked={this.state.isComplete} onChange={this.HandleIsCompleteChanged} /> {goalText} | <a href="#" onClick={this.Delete}>x</a>
-			<ReactTooltip id={goal._id} place="right" type="dark" effect="float">{goal.Reason}</ReactTooltip>
-		</li>
+		<ListGroupItem header={goal.Description} bsStyle={this.state.isComplete ? "success" : "info"}>
+			<Grid fluid>
+				<Row>
+					<Col md={7}>
+						{goal.Reason}
+					</Col>
+					<Col md={4}>
+						{goal.Date.toDateString()}
+					</Col>
+					<Col md={1}>
+						<input type="checkbox" name="isComplete" checked={this.state.isComplete} onChange={this.HandleIsCompleteChanged} /> <a href="#" onClick={this.Delete}>x</a>
+					</Col>
+				</Row>
+			</Grid>
+		</ListGroupItem>
 	);
 }
 

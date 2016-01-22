@@ -1,4 +1,8 @@
+var Row = require("react-bootstrap").Row;
+var Col = require("react-bootstrap").Col;
+var Grid = require("react-bootstrap").Grid;
 var GoalListItem = require("./goal-list-item.jsx");
+var ListGroup = require("react-bootstrap").ListGroup;
 
 var GoalActions = require("../actions/goal-actions.js");
 var GoalStore = require("../stores/goal-store.js");
@@ -40,24 +44,21 @@ GoalListSpec.componentWillUnmount = function()
 
 GoalListSpec.render = function()
 {
-	var content = (
-		<h3>You have no goals... Please submit one.</h3>
-	);
+	let content = <h3>You have no goals... Please submit one.</h3>;
 	if (this.state.goals && this.state.goals.length != 0)
 	{
-		var goals = this.state.goals;
+		let goals = this.state.goals;
 		content = (
-			<ul>
-				{
-					goals.map(function(goal) {
-						return <GoalListItem key={goal._id} goal={goal} />;
-					})
-				}
-			</ul>
+			<ListGroup>
+				{ goals.map(function(goal) { return <GoalListItem key={goal._id} goal={goal} />; }) }
+			</ListGroup>
 		);
 	}
+	
+	// Note: "goal-list" class found in our own app.css
+	//	It limits the width of this element so it doesn't look too stretched out with not enough content.
 	return (
-		<div className="goalList">
+		<div class="goal-list">
 			{content}
 			<p><a href="#" onClick={this.ClearAll}>CLEAR ALL</a> <em>(CLICK AT YOUR OWN RISK)</em></p>
 		</div>

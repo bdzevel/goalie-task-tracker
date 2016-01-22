@@ -1,5 +1,6 @@
-var Button = require("react-bootstrap").Button;
-var ButtonToolbar = require("react-bootstrap").ButtonToolbar;
+var Navbar = require("react-bootstrap").Navbar;
+var Nav = require("react-bootstrap").Nav;
+var NavItem = require("react-bootstrap").NavItem;
 
 var AuthStore = require("../stores/auth-store.js");
 var NavActions = require("../actions/nav-actions.js");
@@ -13,6 +14,7 @@ NavBarSpec.CanGoHome = function()
 }
 NavBarSpec.OnClickHome = function(e)
 {
+	e.preventDefault();
 	NavActions.NavigateHome();
 }
 
@@ -22,6 +24,7 @@ NavBarSpec.CanSignIn = function()
 }
 NavBarSpec.OnClickSignIn = function(e)
 {
+	e.preventDefault();
 	NavActions.NavigateSignIn();
 }
 
@@ -31,6 +34,7 @@ NavBarSpec.CanRegister = function()
 }
 NavBarSpec.OnClickRegister = function(e)
 {
+	e.preventDefault();
 	NavActions.NavigateRegister();
 }
 
@@ -40,6 +44,8 @@ NavBarSpec.CanSignOut = function()
 }
 NavBarSpec.OnClickSignOut = function(e)
 {
+	e.preventDefault();
+	
 	// This is the only nav-bar option that doesn't "navigate"
 	//	There's no "sign out" page - it just signs out
 	AuthActions.SignOut();
@@ -87,12 +93,12 @@ NavBarSpec.componentWillUnmount = function()
 
 NavBarSpec.render = function()
 {
-	var buttons = this.Actions.map(function(action)
+	var items = this.Actions.map(function(action)
 	{
 		if (action.CanExecute())
 		{
 			return (
-				<Button key={action.Name} bsStyle="primary" onClick={action.Execute}>{action.Name}</Button>
+				<NavItem key={action.Name} onClick={action.Execute}>{action.Name}</NavItem>
 			);
 		}
 		else
@@ -101,11 +107,19 @@ NavBarSpec.render = function()
 		}
 	});
 	var navBar = (
-		<div className="navbar">
-			<ButtonToolbar>
-				{buttons}
-			</ButtonToolbar>
-		</div>
+		<Navbar fluid>
+			<Navbar.Header>
+				<Navbar.Brand>
+					<a href="#" onClick={this.OnClickHome}>Goalie</a>
+				</Navbar.Brand>
+				<Navbar.Toggle />
+			</Navbar.Header>
+			<Navbar.Collapse>
+				<Nav>
+					{items}
+				</Nav>
+			</Navbar.Collapse>
+		</Navbar>
 	);
 	return navBar;
 }

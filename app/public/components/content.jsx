@@ -47,14 +47,14 @@ ContentSpec.getInitialState = function()
 
 ContentSpec.render = function()
 {
-	var dynamicContent = (
+	let dynamicContent = (
 		<br />
 	);
 	if (this.state.type == constants.Navigation.Pages.Home)
 	{
 		if (this.state.isSignedIn)
 		{
-			var goals = this.props.goals;
+			let goals = this.props.goals;
 			dynamicContent = (
 				<div>
 					<GoalList />
