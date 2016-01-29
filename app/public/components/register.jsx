@@ -60,35 +60,6 @@ RegisterFormSpec.HandleConfirmPasswordChange = function(e)
 	this.setState({ confirmPassword: e.target.value });
 }
 
-RegisterFormSpec.getUsernameValidity = function()
-{
-	if (!this.state.username)
-		return "error";
-	if (this.state.username.length === 0)
-		return "error";
-	return "success";
-}
-
-RegisterFormSpec.getPasswordValidity = function()
-{
-	if (!this.state.password)
-		return "error";
-	if (this.state.password.length === 0)
-		return "error";
-	return "success";
-}
-
-RegisterFormSpec.getConfirmPasswordValidity = function()
-{
-	if (!this.state.confirmPassword)
-		return "error";
-	if (this.state.confirmPassword.length === 0)
-		return "error";
-	if (this.state.password !== this.state.confirmPassword)
-		return "error";
-	return "success";
-}
-
 RegisterFormSpec.componentDidMount = function()
 {
 	UserStore.AddErrorListener(this.HandleError);
@@ -111,10 +82,10 @@ RegisterFormSpec.render = function()
 		message = <p className="error">{this.state.error}</p>;
 	return (
 		<form onSubmit={this.HandleRegister}>
-			<Input className="user-input" label="Username" type="text" bsStyle={this.getUsernameValidity()} value={this.state.username} onChange={this.HandleUserNameChange} />
-			<Input className="user-input" label="Email Address" type="text" placeholder="Optional" value={this.state.email} onChange={this.HandleEmailChange} />
-			<Input className="user-input" label="Password" type="password" bsStyle={this.getPasswordValidity()} value={this.state.password} onChange={this.HandlePasswordChange} />
-			<Input className="user-input" label="Confirm Password" type="password" bsStyle={this.getConfirmPasswordValidity()} value={this.state.confirmPassword} onChange={this.HandleConfirmPasswordChange} />
+			<Input label="Username" type="text" value={this.state.username} onChange={this.HandleUserNameChange} />
+			<Input label="Email Address" type="text" placeholder="Optional" value={this.state.email} onChange={this.HandleEmailChange} />
+			<Input label="Password" type="password" value={this.state.password} onChange={this.HandlePasswordChange} />
+			<Input label="Confirm Password" type="password" value={this.state.confirmPassword} onChange={this.HandleConfirmPasswordChange} />
 			<ButtonInput type="submit" value="Register" />
 			{message}
 		</form>

@@ -28,7 +28,7 @@ function UserActionHandler(action)
 {
 	if (action.Type == constants.Actions.Create)
 	{
-		store.NotifyRegister(action.Payload);
+		Register(action.Payload);
 	}
 }
 

@@ -1,7 +1,8 @@
+var Well = require("react-bootstrap").Well;
+
 var LoginForm = require("./login.jsx");
-var GoalList = require("./goal-list.jsx");
-var NewGoalForm = require("./new-goal.jsx");
 var RegisterForm = require("./register.jsx");
+var GoalContent = require("./goal-content.jsx");
 
 var NavStore = require("../stores/nav-store.js");
 var AuthStore = require("../stores/auth-store.js");
@@ -52,13 +53,7 @@ ContentSpec.render = function()
 	{
 		if (this.state.isSignedIn)
 		{
-			var goals = this.props.goals;
-			dynamicContent = (
-				<div>
-					<GoalList />
-					<NewGoalForm />
-				</div>
-			);
+			dynamicContent = <GoalContent />;
 		}
 		else
 		{
@@ -67,14 +62,14 @@ ContentSpec.render = function()
 	}
 	else if (this.state.type == constants.Navigation.Pages.SignIn)
 	{
-		dynamicContent = <LoginForm />;
+		dynamicContent = <Well><LoginForm /></Well>;
 	}
 	else if (this.state.type == constants.Navigation.Pages.Registration)
 	{
-		dynamicContent = <RegisterForm />;
+		dynamicContent = <Well><RegisterForm /></Well>;
 	}
 	return (
-		<div className="content">
+		<div className="content container">
 			{dynamicContent}
 		</div>
 	);

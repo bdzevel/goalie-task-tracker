@@ -6,6 +6,10 @@
 	max-width: 1000px;
 }
 
-.user-input {
-	max-width: 350px;
+.well {
+	max-width: 400px;
+}
+
+.glyphicon-remove {
+    color: #cc0000;
 }

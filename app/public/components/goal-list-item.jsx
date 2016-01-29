@@ -1,7 +1,12 @@
 var Row = require("react-bootstrap").Row;
 var Col = require("react-bootstrap").Col;
 var Grid = require("react-bootstrap").Grid;
+var Button = require("react-bootstrap").Button;
+var Tooltip = require("react-bootstrap").Tooltip;
+var Glyphicon = require("react-bootstrap").Glyphicon;
+var OverlayTrigger = require("react-bootstrap").OverlayTrigger;
 
+var ToggleButton = require("./toggle-button.jsx");
 var ConfirmationDialog = require("./confirm-dialog.jsx");
 
 var GoalStore = require("../stores/goal-store.js");
@@ -37,8 +42,8 @@ GoalListItemSpec.Delete = function(e)
 
 GoalListItemSpec.HandleIsCompleteChanged = function(e)
 {
-	this.setState({ isComplete: e.target.checked });
-	this.props.goal.IsComplete = e.target.checked;
+	this.setState({ isComplete: e.target.toggled });
+	this.props.goal.IsComplete = e.target.toggled;
 	GoalActions.Update(this.props.goal);
 }
 
@@ -64,27 +69,30 @@ GoalListItemSpec.render = function()
 	//	 which it  guess is what the standard "ListGroupItem" implementation does somewhere along the way.
 	//	Initially it was just giving a warning in Chrome, but ultimately when implementing the "ConfirmationDialog" modal,
 	//	 it actually started to throw errors.
-	
-	// TODO: Find a nicer way to "delete" a task
-	// TODO: Find a good way to "complete" a task
-	// TODO: Find a good way to indicate task is "completed"
 	var goal = this.props.goal;
+	var deleteButtonTooltip = <Tooltip id={goal._id}>Delete this goal</Tooltip>
 	return (
 		<li className={"list-group-item list-group-item-" + (this.state.isComplete ? "success" : "info")}>
 			<Grid fluid>	
 				<Row>
-					<h4>{goal.Description}</h4>
+					<Col md={1}>
+						<ToggleButton toggled={this.state.isComplete} onChange={this.HandleIsCompleteChanged} />
+					</Col>
+					<Col sm={6} md={11}>
+						<h4>{goal.Description}</h4>
+					</Col>
 				</Row>
 				<Row>
-					<Col md={7}>
+					<Col sm={4} md={8}>
 						{goal.Reason}
 					</Col>
-					<Col md={4}>
+					<Col md={3}>
 						{goal.Date.toDateString()}
 					</Col>
 					<Col md={1}>
-						<input type="checkbox" name="isComplete" checked={this.state.isComplete} onChange={this.HandleIsCompleteChanged} />
-						<a href="#" onClick={this.ConfirmDelete}>x</a>
+						<OverlayTrigger placement="top" delayShow={300} delayHide={150} overlay={deleteButtonTooltip}>
+							<Button bsStyle="link" bsSize="xsmall" onClick={this.ConfirmDelete}><Glyphicon glyph="remove" /></Button>
+						</OverlayTrigger>
 					</Col>
 				</Row>
 			</Grid>

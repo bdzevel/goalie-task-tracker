@@ -16,8 +16,8 @@ ConfirmationDialogSpec.render = function()
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button onClick={this.props.onCancel}>Cancel</Button>
 				<Button onClick={this.props.onConfirm} bsStyle={this.props.style}>{this.props.actiontext}</Button>
+				<Button onClick={this.props.onCancel}>Cancel</Button>
 			</Modal.Footer>
 		</Modal>
 	);

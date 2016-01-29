@@ -45,24 +45,6 @@ LoginFormSpec.HandlePasswordChange = function(e)
 	this.setState({ password: e.target.value });
 }
 
-LoginFormSpec.getUsernameValidity = function()
-{
-	if (!this.state.username)
-		return "error";
-	if (this.state.username.length === 0)
-		return "error";
-	return "success";
-}
-
-LoginFormSpec.getPasswordValidity = function()
-{
-	if (!this.state.password)
-		return "error";
-	if (this.state.password.length === 0)
-		return "error";
-	return "success";
-}
-
 LoginFormSpec.componentDidMount = function()
 {
 	AuthStore.AddErrorListener(this.HandleError);
@@ -85,8 +67,8 @@ LoginFormSpec.render = function()
 		message = <p className="error">{this.state.error}</p>;
 	return (
 		<form onSubmit={this.HandleLogIn}>
-			<Input className="user-input" label="Username" type="text" bsStyle={this.getUsernameValidity()} value={this.state.username} onChange={this.HandleUserNameChange} />
-			<Input className="user-input" label="Password" type="password" bsStyle={this.getPasswordValidity()} value={this.state.password} onChange={this.HandlePasswordChange} />
+			<Input label="Username" type="text" value={this.state.username} onChange={this.HandleUserNameChange} />
+			<Input label="Password" type="password" value={this.state.password} onChange={this.HandlePasswordChange} />
 			<ButtonInput type="submit" value="Sign In" />
 			{message}
 		</form>

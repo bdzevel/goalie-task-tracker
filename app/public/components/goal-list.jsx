@@ -44,24 +44,17 @@ GoalListSpec.componentWillUnmount = function()
 
 GoalListSpec.render = function()
 {
-	// TODO: Find a nicer way to "delete all"
 	// TODO: Find a good way to "mark all done"
 	var goals = this.state.goals;
-	var content = <h3>You have no goals... Please submit one.</h3>;
 	if (goals && goals.length != 0)
 	{
-		content = (
+		return (
 			<ListGroup componentClass="ul">
 				{ goals.map(function(goal) { return <GoalListItem key={goal._id} goal={goal} />; }) }
 			</ListGroup>
 		);
 	}
-	return (
-		<div>
-			{content}
-			<p><a href="#" onClick={this.ClearAll}>CLEAR ALL</a> <em>(CLICK AT YOUR OWN RISK)</em></p>
-		</div>
-	);
+	return <h3>You have no goals... Please submit one.</h3>;
 }
 
 var React = require("react");

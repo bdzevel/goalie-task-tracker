@@ -13,7 +13,7 @@ GoalieAppSpec.componentDidMount = function()
 GoalieAppSpec.render = function()
 {
 	return (
-		<div className="goalieApp">
+		<div>
 			<NavBar />
 			<Content />
 		</div>

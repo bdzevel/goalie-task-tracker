@@ -35,15 +35,6 @@ NewGoalFormSpec.HandleReasonChange = function(e)
 	this.setState({ reason: e.target.value });
 }
 
-NewGoalFormSpec.getDescriptionValidity = function()
-{
-	if (!this.state.description)
-		return "error";
-	if (this.state.description.length === 0)
-		return "error";
-	return "success";
-}
-
 NewGoalFormSpec.getInitialState = function()
 {
 	return ({ description: "", reason: "" });
@@ -56,7 +47,7 @@ NewGoalFormSpec.render = function()
 		message = <p className="error">{this.state.error}</p>;
 	return (
 		<form onSubmit={this.NewGoal}>
-			<Input className="user-input" type="text" label="Description" bsStyle={this.getDescriptionValidity()} value={this.state.description} onChange={this.HandleDescriptionChange} />
+			<Input className="user-input" type="text" label="Description" value={this.state.description} onChange={this.HandleDescriptionChange} />
 			<Input className="user-input" type="text" label="Reason" placeholder="Optional" value={this.state.reason} onChange={this.HandleReasonChange} />
 			<ButtonInput type="submit" value="Submit New Goal" />
 			{message}
