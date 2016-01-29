@@ -5,3 +5,7 @@
 .content {
 	max-width: 1000px;
 }
+
+.user-input {
+	max-width: 350px;
+}

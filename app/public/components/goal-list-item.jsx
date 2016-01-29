@@ -59,12 +59,13 @@ GoalListItemSpec.componentWillUnmount = function()
 
 GoalListItemSpec.render = function()
 {
-	// NOTE: This is a super-custom "ListGroupItem" (which is an actual react-bootstrap component)
+	// NOTE: This is a heavily customized "ListGroupItem" (which is an actual react-bootstrap component)
 	//	It had to be customized completely because of issues nesting the Grid I wanted inside a "<p>" tag,
 	//	 which it  guess is what the standard "ListGroupItem" implementation does somewhere along the way.
 	//	Initially it was just giving a warning in Chrome, but ultimately when implementing the "ConfirmationDialog" modal,
 	//	 it actually started to throw errors.
 	
+	// TODO: Find a nicer way to "delete" a task
 	// TODO: Find a good way to "complete" a task
 	// TODO: Find a good way to indicate task is "completed"
 	var goal = this.props.goal;
@@ -90,7 +91,7 @@ GoalListItemSpec.render = function()
 			<ConfirmationDialog
 				show={this.state.showConfirmDialog}
 				title="Are you sure?"
-				description={"This will delete the goal forever.\nThere will be no further record of it."}
+				description="This will delete the goal forever. There will be no further record of it."
 				actiontext="Delete Forever"
 				onCancel={this.HideModal}
 				onConfirm={this.Delete}

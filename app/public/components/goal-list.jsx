@@ -44,6 +44,8 @@ GoalListSpec.componentWillUnmount = function()
 
 GoalListSpec.render = function()
 {
+	// TODO: Find a nicer way to "delete all"
+	// TODO: Find a good way to "mark all done"
 	var goals = this.state.goals;
 	var content = <h3>You have no goals... Please submit one.</h3>;
 	if (goals && goals.length != 0)

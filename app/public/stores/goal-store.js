@@ -84,6 +84,7 @@ function GoalActionHandler(action)
 
 function OnError(result)
 {
+	// TODO: Fire an event to reset the app to a "not signed in" state
 	console.error("ERROR");
 	console.error(result);
 }
