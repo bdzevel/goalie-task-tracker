@@ -7,7 +7,7 @@ let env = require("../config/environment");
 let environment = env.get("ENVIRONMENT");
 
 let server = InitializeServer();
-const port = env.get("PORT") || 3000;
+const port = process.env.PORT || env.get("PORT") || 3000;
 
 TS.TraceVerbose(__filename, "Starting web server on port " + port);
 

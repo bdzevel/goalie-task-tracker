@@ -1,7 +1,7 @@
 {
   "name": "goalie",
   "description": "Web application for task tracking",
-  "version": "0.0.1",
+  "version": "0.5.1",
   "author": "bdzevel",
   "license": "MIT",
   "private": true,
