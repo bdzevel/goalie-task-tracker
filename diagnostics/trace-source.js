@@ -1,4 +1,7 @@
-var Severity = require("./severity");
+// ROOT/diagnostics
+"use strict";
+
+let Severity = require("./severity");
 
 function TraceSource(name)
 {
@@ -19,22 +22,22 @@ TraceSource.prototype.Trace = function(severity, filepath, message)
 }
 TraceSource.prototype.TraceInformation = function(filepath, message)
 {
-	var msg = FormatMessage(this.Name, filepath, message);
+	let msg = FormatMessage(this.Name, filepath, message);
 	console.info(msg);
 }
 TraceSource.prototype.TraceVerbose = function(filepath, message)
 {
-	var msg = FormatMessage(this.Name, filepath, message);
+	let msg = FormatMessage(this.Name, filepath, message);
 	console.log(msg);
 }
 TraceSource.prototype.TraceWarning = function(filepath, message)
 {
-	var msg = FormatMessage(this.Name, filepath, message);
+	let msg = FormatMessage(this.Name, filepath, message);
 	console.warn(msg);
 }
 TraceSource.prototype.TraceError = function(filepath, message)
 {
-	var msg = FormatMessage(this.Name, filepath, message);
+	let msg = FormatMessage(this.Name, filepath, message);
 	console.error(msg);
 }
 

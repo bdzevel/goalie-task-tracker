@@ -1,6 +1,7 @@
 // ROOT/api/users/handlers
+"use strict";
 
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function GET(request, response)
 {

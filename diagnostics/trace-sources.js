@@ -1,6 +1,9 @@
-var TraceSource = require("./trace-source");
+// ROOT/diagnostics
+"use strict";
 
-var TraceSources = { };
+let TraceSource = require("./trace-source");
+
+let TraceSources = { };
 TraceSources.Get = function(name)
 {
 	if (!this[name])

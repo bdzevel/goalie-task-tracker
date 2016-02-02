@@ -1,19 +1,20 @@
 // ROOT/api/authentication/handlers
+"use strict";
 
-var bcrypt = require("bcrypt");
+let bcrypt = require("bcrypt");
 
-var User = require("../../users/user");
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let User = require("../../users/user");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
 	// Validate username / password and store session data
-	var username = request.body["username"];
-	var password = request.body["password"];
+	let username = request.body["username"];
+	let password = request.body["password"];
 	
 	if (!username)
 	{
-		var errmsg = "Invalid username";
+		let errmsg = "Invalid username";
 		TS.TraceWarning(__filename, errmsg);
 		response.status(400).send({ error: errmsg });
 		return;
@@ -32,7 +33,7 @@ function POST(request, response)
 
 		if (!user)
 		{
-			var errmsg = "Invalid username";
+			let errmsg = "Invalid username";
 			TS.TraceWarning(__filename, errmsg);
 			response.status(400).send({ error: errmsg });
 			return;
@@ -40,7 +41,7 @@ function POST(request, response)
 
 		if (!bcrypt.compareSync(password, user.PasswordHash))
 		{
-			var errmsg = "Invalid password";
+			let errmsg = "Invalid password";
 			TS.TraceWarning(__filename, errmsg);
 			response.status(400).send({ error: errmsg });
 			return;

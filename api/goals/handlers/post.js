@@ -1,23 +1,24 @@
 // ROOT/api/goals/handlers
+"use strict";
 
-var Goal = require("../goal");
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let Goal = require("../goal");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
 	// Create new goalValidateUserSession
-	var userID = request.session.userid;
-	var goal = request.body["goal"];
+	let userID = request.session.userid;
+	let goal = request.body["goal"];
 
 	if (!goal)
 	{
-		var errmsg = "Invalid goal";
+		let errmsg = "Invalid goal";
 		TS.TraceWarning(__filename, errmsg);
 		response.status(400).send({ error: errmsg });
 		return;
 	}
 
-	var newGoal = new Goal();
+	let newGoal = new Goal();
 	newGoal.UserID = userID;
 	newGoal.Description = goal.Description;
 	newGoal.Reason = goal.Reason;

@@ -1,15 +1,16 @@
 // ROOT/api/users
+"use strict";
 
-var mongoose = require("mongoose");
+let mongoose = require("mongoose");
 
-var fields =
+let fields =
 {
 	UserName: String,
 	EMail: String,
 	DateJoined: { type: Date, default: Date.now },
 	PasswordHash: String
 };
-var schema = new mongoose.Schema(fields);
-var model = mongoose.model("User", schema);
+let schema = new mongoose.Schema(fields);
+let model = mongoose.model("User", schema);
 
 module.exports = model;

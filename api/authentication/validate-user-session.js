@@ -1,7 +1,8 @@
 // ROOT/api/authentication
+"use strict";
 
-var User = require("../users/user");
-var TS = require("../diagnostics/trace-sources").Get("Request-Handlers");
+let User = require("../users/user");
+let TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function ValidateUserSession(request, response, next)
 {

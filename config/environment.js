@@ -1,4 +1,7 @@
-var Habitat = require("habitat");
+// ROOT/config
+"use strict";
+
+let Habitat = require("habitat");
 Habitat.load('.env');
-var env = new Habitat("GOALIE");
+let env = new Habitat("GOALIE");
 module.exports = env;

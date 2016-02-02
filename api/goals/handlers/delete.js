@@ -1,13 +1,14 @@
 // ROOT/api/goals/handlers
+"use strict";
 
-var Goal = require("../goal");
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let Goal = require("../goal");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function DELETE(request, response)
 {
 	// Delete goal
-	var userID = request.session.userid;
-	var goalID = request.params["id"];
+	let userID = request.session.userid;
+	let goalID = request.params["id"];
 
 	Goal.findById(goalID, OnGoalFound);
 
@@ -22,7 +23,7 @@ function DELETE(request, response)
 
 		if (!goal || goal.UserID != userID)
 		{
-			var errmsg = "Goal not found";
+			let errmsg = "Goal not found";
 			TS.TraceWarning(__filename, errmsg);
 			response.status(500).send({ error: errmsg });
 			return;

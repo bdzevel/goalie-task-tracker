@@ -2,10 +2,5 @@
 
 // ROOT/bin
 
-// API:
-
-require("../api/init");
-
-// Front End:
-
-require("../app/init");
+require("../init/db");
+require("../init/server");

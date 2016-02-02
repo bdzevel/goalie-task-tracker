@@ -1,8 +1,9 @@
 // ROOT/api/goals
+"use strict";
 
-var mongoose = require("mongoose");
+let mongoose = require("mongoose");
 
-var fields =
+let fields =
 {
 	UserID: mongoose.Schema.Types.ObjectId,
 	Description: String,
@@ -11,7 +12,7 @@ var fields =
 	IsComplete: Boolean,
 	Date: { type: Date, default: Date.now }
 };
-var schema = new mongoose.Schema(fields);
-var model = mongoose.model("Goal", schema);
+let schema = new mongoose.Schema(fields);
+let model = mongoose.model("Goal", schema);
 
 module.exports = model;

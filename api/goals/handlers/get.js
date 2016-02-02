@@ -1,12 +1,13 @@
 // ROOT/api/goals/handlers
+"use strict";
 
-var Goal = require("../goal");
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let Goal = require("../goal");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function GET(request, response)
 {
 	// Get goals
-	var userID = request.session.userid;
+	let userID = request.session.userid;
 
 	Goal.find({ UserID: userID }, OnGoalFound);
 

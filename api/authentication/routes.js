@@ -1,12 +1,13 @@
 // ROOT/api/authentication
+"use strict";
 
-var express = require("express");
-var router = express.Router();
+let express = require("express");
+let router = express.Router();
 
-var GET = require("./handlers/get");
-var POST = require("./handlers/post");
-var DELETE = require("./handlers/delete");
-var ValidateUserSession = require("./validate-user-session");
+let GET = require("./handlers/get");
+let POST = require("./handlers/post");
+let DELETE = require("./handlers/delete");
+let ValidateUserSession = require("./validate-user-session");
 
 router.post("/", POST);
 router.get("/", ValidateUserSession, GET);

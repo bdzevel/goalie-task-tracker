@@ -1,20 +1,21 @@
 // ROOT/api/users/handlers
+"use strict";
 
-var bcrypt = require("bcrypt");
+let bcrypt = require("bcrypt");
 
-var User = require("../user");
-var TS = require("../../diagnostics/trace-sources").Get("Request-Handlers");
+let User = require("../user");
+let TS = require("../../../diagnostics/trace-sources").Get("Request-Handlers");
 
 function POST(request, response)
 {
 	// Register new user
-	var username = request.body["username"];
-	var emailAddress = request.body["email"];
-	var password = request.body["password"];
+	let username = request.body["username"];
+	let emailAddress = request.body["email"];
+	let password = request.body["password"];
 	
 	if (!username || username == "")
 	{
-		var errmsg = "Invalid username";
+		let errmsg = "Invalid username";
 		TS.TraceWarning(__filename, errmsg);
 		response.status(400).send({ error: errmsg });
 		return;
@@ -32,14 +33,14 @@ function POST(request, response)
 
 		if (user)
 		{
-			var errmsg = "User '" + user.UserName + "' already exists!";
+			let errmsg = "User '" + user.UserName + "' already exists!";
 			TS.TraceWarning(__filename, errmsg);
 			response.status(409).send({ error: errmsg });
 			return;
 		}
 
 		// No user found with this name, we can register it
-		var newUser = new User();
+		let newUser = new User();
 		newUser.UserName = username;
 		newUser.EMail = emailAddress;
 		bcrypt.hash(password, 10, OnHashGenerated);
