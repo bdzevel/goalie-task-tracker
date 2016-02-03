@@ -24,8 +24,9 @@ build/Release
 
 # Dependency directories
 node_modules
+bower_components
 app/node_modules
-public/lib/*
+public/lib
 
 # Compiled front-end "bundle"
 app/public/bundle.jsx
