@@ -7,8 +7,8 @@
   "private": true,
   "scripts": {
     "start": "echo 'Run the start script from the root'",
-    "build-dev": "browserify ./public/app.jsx -o ../public/bundle.jsx",
-    "build": "browserify ./public/app.jsx | uglifyjs -cm -o ../public/bundle.jsx"
+    "build-dev": "browserify ./public/app.jsx -o ../public/bundle.js",
+    "build": "browserify ./public/app.jsx | uglifyjs -cm -o ../public/bundle.js"
   },
   "dependencies": {
     "browserify": "^12.0.1",
