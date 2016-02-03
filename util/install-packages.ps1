@@ -13,6 +13,7 @@ while ($result -ne "y" -and $result -ne "Y");
 
 # Install all dependencies of the server
 npm install;
+bower install;
 
 # Install all dependencies of the front-end application
 #	and move them to the appropriate location

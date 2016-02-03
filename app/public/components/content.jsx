@@ -69,8 +69,10 @@ ContentSpec.render = function()
 		dynamicContent = <Well><RegisterForm /></Well>;
 	}
 	return (
-		<div className="content container">
-			{dynamicContent}
+		<div className="container-fluid">
+			<div className="content">
+				{dynamicContent}
+			</div>
 		</div>
 	);
 };

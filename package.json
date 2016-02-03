@@ -1,12 +1,13 @@
 {
   "name": "goalie",
   "description": "Web application for task tracking",
-  "version": "0.5.1",
+  "version": "0.8.1",
   "author": "bdzevel",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "grunt"
   },
   "dependencies": {
     "bcrypt": "^0.8.5",
@@ -22,5 +23,9 @@
     "mongoose": "^4.2.4",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bower-task": "^0.4.0"
   }
 }
