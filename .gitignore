@@ -28,9 +28,6 @@ bower_components
 app/node_modules
 public/lib
 
-# Compiled front-end "bundle"
-app/public/bundle.jsx
-
 *.env
 *.pem
 *.srl
